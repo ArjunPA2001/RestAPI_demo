@@ -1,0 +1,98 @@
+Endpoint to interact with customer table.
+
+---
+get:
+  description: Get all entries in the customer table or a specific entry by customer ID.
+  responses:
+    200:
+      description: list of entries from customer table.
+      schema:
+        type: object
+        properties:
+          datas:
+            type: array
+            items:
+              type: array
+              items:
+                  - type: integer
+                  - type: string
+                  - type: string
+                  - type: string
+delete:
+  description: Delete specific entries based on customer id
+  parameters:
+  - name: customer_id
+    in: body
+    type: integer
+    required: true
+    description: Id of the customer
+  responses:
+  200:
+    description: conformation message
+    schema:
+    type: object
+    properties:
+      message:
+      type: string
+put:
+  description: Put endpoint to update
+  parameters:
+  - name: customer_id
+    in: body
+    type: integer
+    required: false
+    description: Id of the customer
+  - name: customer_name
+    in: body
+    type: string
+    required: false
+    description: Name of the customer
+  - name: customer_type
+    in: body
+    type: string
+    required: false
+    description: type of the customer
+  - name: datetime
+    in: body
+    type: string
+    required: false
+    description: Date and time of when the customer was created
+  responses:
+  200:
+    description: Conformation message
+    schema:
+    type: object
+    properties:
+      message:
+      type: string
+post:
+  description: Post endpoint to input a new entry
+  parameters:
+  - name: customer_id
+    in: body
+    type: integer
+    required: false
+    description: Id of the customer
+  - name: customer_name
+    in: body
+    type: string
+    required: false
+    description: Name of the customer
+  - name: customer_type
+    in: body
+    type: string
+    required: false
+    description: type of the customer
+  - name: datetime
+    in: body
+    type: string
+    required: false
+    description: Date and time of when the customer was created
+  responses:
+  200:
+    description: Conformation message
+    schema:
+    type: object
+    properties:
+      message:
+      type: string
