@@ -9,7 +9,7 @@ swagger = Swagger(app)
 def get_db():
     if 'db' not in g:
         g.db = mysql.connector.connect(
-        host="localhost",
+        host="host.docker.internal",
         user="root",
         password="pass",
         port = 3333
@@ -31,9 +31,7 @@ def execute_procedure(proc,*args, has_crud = False):
             if proc == "DeleteCustomer":
                 return {}
             res = next(curr.stored_results())
-            print(res,"ASDSADSAD")
             result = res.fetchall()
-            print(result,"WADESADWA")
         return result
 
     except Exception as e:
@@ -48,7 +46,7 @@ def customer_table_apis():
     if request.method == 'GET':
         print(request)
         data = execute_procedure('GetCustomer',None)
-        print(type(data[0]))
+        print(type(data))
         if "error_type" not in data:
             return jsonify({"datas":data})
     elif request.method == 'POST':
@@ -66,7 +64,6 @@ def customer_table_apis():
         data = execute_procedure('DeleteCustomer',c_id,has_crud=True)
         if "error_type" not in data:
             return jsonify({'message':f'Customer with id %d Deleted succesfully'%(c_id)})
-        print(data)
     elif request.method == 'PUT':
         data = request.get_json()
         c_id = data['customer_id']
@@ -76,7 +73,6 @@ def customer_table_apis():
         data = execute_procedure('UpdateCustomer',c_id,c_name,c_type,dt,has_crud=True)
         if "error_type" not in data:
             return jsonify({'message':f'Customer with id %d Updated succesfully'%(data[0][0])})
-    print(data)
     return jsonify(data)
 
 @app.route("/api/customer/<int:customer_id>", methods = ["GET"])
